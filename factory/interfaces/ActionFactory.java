@@ -1,6 +1,6 @@
 package factory.interfaces;
 
-import models.actions.Action;
+import models.interfaces.Action;
 
 import java.lang.reflect.InvocationTargetException;
 

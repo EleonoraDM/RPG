@@ -1,4 +1,4 @@
-package models.participants;
+package models.interfaces;
 
 public interface Hero extends Targetable, Specials {
 

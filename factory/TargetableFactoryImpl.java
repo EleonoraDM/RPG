@@ -1,7 +1,7 @@
 package factory;
 
 import factory.interfaces.TargetableFactory;
-import models.participants.Targetable;
+import models.interfaces.Targetable;
 
 import java.lang.reflect.InvocationTargetException;
 

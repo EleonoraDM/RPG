@@ -1,17 +1,6 @@
 package core;
 
 import core.interfaces.Battlefield;
-import factory.interfaces.TargetableFactory;
-import io.ConsoleWriter;
-import models.actions.Action;
-import models.actions.OneVsOne;
-import models.participants.Targetable;
-import models.participants.Warrior;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class BattlefieldImplementation implements Battlefield {
 

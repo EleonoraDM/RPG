@@ -1,4 +1,6 @@
-package core.interfaces;
+package core;
+
+import core.interfaces.Engine;
 
 import java.io.IOException;
 

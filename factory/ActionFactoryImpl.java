@@ -1,6 +1,7 @@
-package factory.interfaces;
+package factory;
 
-import models.actions.Action;
+import factory.interfaces.ActionFactory;
+import models.interfaces.Action;
 
 import java.lang.reflect.InvocationTargetException;
 

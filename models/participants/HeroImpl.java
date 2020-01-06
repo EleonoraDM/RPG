@@ -1,6 +1,8 @@
 package models.participants;
 
 import models.Config;
+import models.interfaces.Hero;
+import models.interfaces.Targetable;
 
 public class HeroImpl implements Hero {
     private static final int LEVEL_ENTRY_POINT = 1;

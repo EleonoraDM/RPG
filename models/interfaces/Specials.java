@@ -1,4 +1,4 @@
-package models.participants;
+package models.interfaces;
 
 public interface Specials {
     public void triggerHeal();

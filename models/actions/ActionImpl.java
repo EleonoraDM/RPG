@@ -1,6 +1,7 @@
 package models.actions;
 
-import models.participants.Targetable;
+import models.interfaces.Action;
+import models.interfaces.Targetable;
 
 import java.util.List;
 
