@@ -1,6 +1,3 @@
-import models.participants.Hero;
-import models.participants.HeroImpl;
-
 import java.io.IOException;
 
 public class Main {

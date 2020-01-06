@@ -2,7 +2,7 @@ package models.participants;
 
 import models.Config;
 
-public abstract class HeroImpl implements Hero {
+public class HeroImpl implements Hero {
     private static final int LEVEL_ENTRY_POINT = 1;
 
     private String name;
@@ -11,7 +11,7 @@ public abstract class HeroImpl implements Hero {
     private int intelligence;
     private int level; //Starting from 1
     private double health; //Strength * 10
-    private int damage; //Different for each type of hero!!!
+    private double damage; //Different for each type of hero!!!
     private double gold; //HERO_START_GOLD = 200.0;
     private boolean isAlive;
 
@@ -29,14 +29,13 @@ public abstract class HeroImpl implements Hero {
         this.gold = gold;
     }
 
-    protected void setDamage(int damage) {
+    protected void setDamage(double damage) {
         this.damage = damage;
     }
 
     @Override
     public void setHealth(double health) {
         this.health = this.getStrength() * health;
-
     }
 
     @Override
@@ -70,17 +69,6 @@ public abstract class HeroImpl implements Hero {
     }
 
     @Override
-    public String attack(Targetable target) {
-        //TODO Implementation
-        return null;
-    }
-
-    @Override
-    public void takeDamage(double damage) {
-    //TODO Implementation
-    }
-
-    @Override
     public String getName() {
         return this.name;
     }
@@ -106,22 +94,52 @@ public abstract class HeroImpl implements Hero {
     }
 
     @Override
-    public void giveReward(Targetable targetable) {
-    //TODO Implementation
+    public boolean isAlive() {
+        return this.isAlive;
     }
 
     @Override
-    public void receiveReward(double reward) {
-    //TODO Implementation
+    public String attack(Targetable target) {
+        //TODO Implementation
+        return null;
+    }
+
+    @Override
+    public void takeDamage(double damage) {
+        this.setHealth(this.getHealth() - damage);
     }
 
     @Override
     public void levelUp() {
-    //TODO Implementation
+        this.setStrength(this.getStrength() * Config.LEVEL_UP_MULTIPLIER);
+        this.setDexterity(this.getDexterity() * Config.LEVEL_UP_MULTIPLIER);
+        this.setIntelligence(this.getIntelligence() * Config.LEVEL_UP_MULTIPLIER);
+        this.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
+        this.level++;
     }
 
     @Override
-    public boolean isAlive() {
-        return this.isAlive;
+    public void giveReward(Targetable targetable) {
+        //TODO Implementation
+    }
+
+    @Override
+    public void receiveReward(double reward) {
+        //TODO Implementation
+    }
+
+    @Override
+    public void triggerHeal() {
+
+    }
+
+    @Override
+    public void triggerToughness() {
+
+    }
+
+    @Override
+    public void triggerSwiftness() {
+
     }
 }

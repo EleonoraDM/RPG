@@ -1,6 +1,6 @@
 package models.participants;
 
-public interface Hero extends Targetable {
+public interface Hero extends Targetable, Specials {
 
     int getStrength();
 

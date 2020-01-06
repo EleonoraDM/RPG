@@ -15,7 +15,53 @@ import java.util.TreeMap;
 
 public class BattlefieldImplementation implements Battlefield {
 
-    private Map<String, Targetable> participants;
+
+
+    @Override
+    public void createAction(String actionName, String... participantNames) {
+
+    }
+
+    @Override
+    public void createParticipant(String heroName, String heroClassName) {
+
+    }
+
+    @Override
+    public void createSpecial(String heroName, String specialName) {
+
+    }
+
+    @Override
+    public void reportParticipants() {
+
+    }
+
+    @Override
+    public void reportActions() {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*    private Map<String, Targetable> participants;
     private List<Action> executedActions;
     ConsoleWriter writer;
     TargetableFactory targetableFactory;
@@ -116,5 +162,5 @@ public class BattlefieldImplementation implements Battlefield {
         }
 
         this.participants = aliveParticipants;
-    }
+    }*/
 }

@@ -12,4 +12,5 @@ public class Boss extends HeroImpl {
         this.setDamage((int) Config.BOSS_DAMAGE);
         this.setGold(Config.BOSS_GOLD);
     }
+
 }

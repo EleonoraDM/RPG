@@ -1,12 +1,10 @@
 package models.actions;
 
-import models.participants.Targetable;
+public class OneVsOne extends ActionImpl {
 
-import java.util.List;
 
-public class OneVsOne implements Action {
 
-    List<Targetable> participants;
+/*    List<Targetable> participants;
 
     public String executeAction(List<Targetable> participants) {
 
@@ -35,5 +33,5 @@ public class OneVsOne implements Action {
         }
 
         return sb.toString();
-    }
+    }*/
 }

@@ -1,14 +1,7 @@
 package models.actions;
 
-import models.participants.Targetable;
+public class BossFight extends ActionImpl {
 
-import java.util.List;
 
-public class BossFight implements Action {
 
-    @Override
-    public String executeAction(List<Targetable> participants) {
-        //TODO Implementation
-        return null;
-    }
 }
