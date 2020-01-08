@@ -1,5 +1,6 @@
 package models.participants;
 
+import common.OutputMessages;
 import models.Config;
 import models.interfaces.Hero;
 import models.interfaces.Targetable;
@@ -102,8 +103,22 @@ public class HeroImpl implements Hero {
 
     @Override
     public String attack(Targetable target) {
-        //TODO Implementation
-        return null;
+
+        if (!this.isAlive()) {
+            return String.format(OutputMessages.DEAD_ATTACKER, this.getName());
+        }
+        if (!target.isAlive()) {
+            return String.format(OutputMessages.DEAD_TARGET, target.getName());
+        }
+        target.takeDamage(this.getDamage());
+        String result = String.format(OutputMessages.ATTACK_SUCCESSFUL, target.getName());
+
+        if (!target.isAlive()) {
+            target.giveReward(this);
+            this.levelUp();
+            result+= String.format(OutputMessages.TARGET_DEFEATED, target.getName(), this.getName());
+        }
+        return result;
     }
 
     @Override
@@ -122,26 +137,27 @@ public class HeroImpl implements Hero {
 
     @Override
     public void giveReward(Targetable targetable) {
-        //TODO Implementation
+        targetable.receiveReward(this.getGold());
+        this.setGold(0);
     }
 
     @Override
     public void receiveReward(double reward) {
-        //TODO Implementation
+        this.setGold(this.getGold() + reward);
     }
 
     @Override
     public void triggerHeal() {
-
+        //TODO Implementation
     }
 
     @Override
     public void triggerToughness() {
-
+    //TODO Implementation
     }
 
     @Override
     public void triggerSwiftness() {
-
+        //TODO Implementation
     }
 }
