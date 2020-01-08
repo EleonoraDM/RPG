@@ -1,37 +1,31 @@
 package models.actions;
 
+import common.ExceptionMessages;
+import common.OutputMessages;
+import models.interfaces.Targetable;
+
+import java.util.List;
+
 public class OneVsOne extends ActionImpl {
 
-
-
-/*    List<Targetable> participants;
-
+    @Override
     public String executeAction(List<Targetable> participants) {
 
-        this.participants = participants;
-
-        String error = "There should be exactly 2 participants for OneVsOne!";
-
-        StringBuilder sb = new StringBuilder();
-
+        if (participants.size() != 2) {
+            throw new IllegalArgumentException(ExceptionMessages.INVALID_PARTICIPANTS);
+        }
         Targetable firstHero = participants.get(0);
         Targetable secondHero = participants.get(1);
 
-        while (firstHero.isAlive()){
-            sb.append(firstHero.attack(secondHero)).append(System.lineSeparator());
+        while (!firstHero.isAlive() || !secondHero.isAlive()) {
+            firstHero.attack(secondHero);
+
             if (secondHero.isAlive()) {
-                sb.append(secondHero.attack(firstHero)).append(System.lineSeparator());
-            }else {
-                break;
+                secondHero.attack(firstHero);
             }
         }
+        String winnerName = firstHero.isAlive() ? firstHero.getName() : secondHero.getName();
 
-        if (firstHero.isAlive()){
-            sb.append(String.format("%s is victorious!%s%s", firstHero.getName(), System.lineSeparator(),firstHero.toString()));
-        }else {
-            sb.append(String.format("%s is victorious!%s%s", firstHero.getName(), System.lineSeparator(),firstHero.toString()));
-        }
-
-        return sb.toString();
-    }*/
+        return String.format(OutputMessages.FIGHT_END, winnerName);
+    }
 }

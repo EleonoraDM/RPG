@@ -28,6 +28,14 @@ public class HeroImpl implements Hero {
         this.isAlive = true;
     }
 
+    protected int getLevel() {
+        return this.level;
+    }
+
+    protected void setLevel(int level) {
+        this.level = level;
+    }
+
     protected void setGold(double gold) {
         this.gold = gold;
     }
@@ -101,6 +109,10 @@ public class HeroImpl implements Hero {
         return this.isAlive;
     }
 
+    public void setAlive() {
+        this.isAlive = false;
+    }
+
     @Override
     public String attack(Targetable target) {
 
@@ -111,12 +123,12 @@ public class HeroImpl implements Hero {
             return String.format(OutputMessages.DEAD_TARGET, target.getName());
         }
         target.takeDamage(this.getDamage());
-        String result = String.format(OutputMessages.ATTACK_SUCCESSFUL, target.getName());
+        String result = String.format(OutputMessages.ATTACK_SUCCESSFUL, this.getName());
 
         if (!target.isAlive()) {
             target.giveReward(this);
             this.levelUp();
-            result+= String.format(OutputMessages.TARGET_DEFEATED, target.getName(), this.getName());
+            result += String.format(OutputMessages.TARGET_DEFEATED, target.getName(), this.getName());
         }
         return result;
     }
@@ -131,7 +143,7 @@ public class HeroImpl implements Hero {
         this.setStrength(this.getStrength() * Config.LEVEL_UP_MULTIPLIER);
         this.setDexterity(this.getDexterity() * Config.LEVEL_UP_MULTIPLIER);
         this.setIntelligence(this.getIntelligence() * Config.LEVEL_UP_MULTIPLIER);
-        this.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
+        this.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);//FIXME not sure about this!
         this.level++;
     }
 
@@ -153,11 +165,26 @@ public class HeroImpl implements Hero {
 
     @Override
     public void triggerToughness() {
-    //TODO Implementation
+        //TODO Implementation
     }
 
     @Override
     public void triggerSwiftness() {
         //TODO Implementation
+    }
+
+
+    @Override
+    //TODO to check implementation!!!
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("  Name: %s | Class: %s", this.getName(), this.getClass().getSimpleName()))
+                .append(System.lineSeparator())
+                .append(String.format("  Health: %.2f | Damage: %.2f", this.getHealth(), this.getDamage()))
+                .append(System.lineSeparator())
+                .append(String.format("  %d STR | %d DEX | %d INT | %.2f Gold",
+                        this.getStrength(), this.getDexterity(), this.getIntelligence(), this.getGold()));
+        return sb.toString();
     }
 }
