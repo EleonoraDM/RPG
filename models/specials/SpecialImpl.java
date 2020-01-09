@@ -2,5 +2,8 @@ package models.specials;
 
 import models.interfaces.Special;
 
-public class SpecialImpl implements Special {
+public abstract class SpecialImpl implements Special {
+
+    protected SpecialImpl() {
+    }
 }

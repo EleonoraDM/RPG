@@ -4,10 +4,13 @@ import common.ExceptionMessages;
 import common.OutputMessages;
 import core.interfaces.Battlefield;
 import factory.ActionFactoryImpl;
+import factory.SpecialFactoryImpl;
 import factory.TargetableFactoryImpl;
 import factory.interfaces.ActionFactory;
+import factory.interfaces.SpecialFactory;
 import factory.interfaces.TargetableFactory;
 import models.interfaces.Action;
+import models.interfaces.Special;
 import models.interfaces.Targetable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,12 +19,14 @@ import java.util.*;
 public class BattlefieldImplementation implements Battlefield {
     private TargetableFactory targetableFactory;
     private ActionFactory actionFactory;
+    private SpecialFactory specialFactory;
     private Map<String, Targetable> heroesOnTheBattleField;
     private List<Targetable> participants;
 
     public BattlefieldImplementation() {
         this.targetableFactory = new TargetableFactoryImpl();
         this.actionFactory = new ActionFactoryImpl();
+        this.specialFactory = new SpecialFactoryImpl();
         this.heroesOnTheBattleField = new LinkedHashMap<>();
         this.participants = new LinkedList<>();
     }
@@ -78,8 +83,18 @@ public class BattlefieldImplementation implements Battlefield {
     }
 
     @Override
-    public String createSpecial(String heroName, String specialName) {
-        return null;
+    public void createSpecial(String heroName, String specialName) {
+        Targetable hero = this.heroesOnTheBattleField.get(heroName);
+        try {
+            Special special = this.specialFactory.create(specialName);
+            hero.addSpecial(special);
+        } catch (ClassNotFoundException
+                | IllegalAccessException
+                | InstantiationException
+                | NoSuchMethodException
+                | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

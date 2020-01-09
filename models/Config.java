@@ -24,4 +24,6 @@ public final class Config {
     public static final double BOSS_HEALTH = 500;
     public static final double BOSS_DAMAGE = 5;
     public static final double BOSS_INDIVIDUAL_REWARD = 50;
+
+    public static final double SPECIALS_TRIGGER = 0.50;
 }

@@ -11,6 +11,6 @@ public interface SpecialFactory {
             IllegalAccessException,
             InstantiationException,
             NoSuchMethodException,
-            InvocationTargetException;;
+            InvocationTargetException;
 
 }

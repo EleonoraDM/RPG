@@ -3,7 +3,11 @@ package models.participants;
 import common.OutputMessages;
 import models.Config;
 import models.interfaces.Hero;
+import models.interfaces.Special;
 import models.interfaces.Targetable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HeroImpl implements Hero {
     private static final int LEVEL_ENTRY_POINT = 1;
@@ -17,6 +21,7 @@ public class HeroImpl implements Hero {
     private double damage; //Different for each type of hero!!!
     private double gold; //HERO_START_GOLD = 200.0;
     private boolean isAlive;
+    private List<Special> specials;
 
 
     protected HeroImpl
@@ -26,6 +31,7 @@ public class HeroImpl implements Hero {
         this.setHealth(Config.HERO_HEALTH_MULTIPLIER);
         this.setGold(Config.HERO_START_GOLD);
         this.isAlive = true;
+        this.specials = new ArrayList<>();
     }
 
     protected int getLevel() {
@@ -159,23 +165,41 @@ public class HeroImpl implements Hero {
     }
 
     @Override
+    public void addSpecial(Special special) {
+        this.specials.add(special);
+    }
+
+    @Override
+    public boolean checkForSpecialAbility() {
+        return this.specials.size() > 0;
+    }
+
+    @Override
     public void triggerHeal() {
-        //TODO Implementation
+        if (this.getHealth() == this.getHealth() * Config.SPECIALS_TRIGGER) {
+            this.setHealth(this.getIntelligence());
+        }
     }
 
     @Override
     public void triggerToughness() {
-        //TODO Implementation
+        if (this.getHealth() == this.getHealth() * Config.SPECIALS_TRIGGER) {
+            this.setStrength(this.getIntelligence());
+        }
+        //FIXME This effect is lasts only for the duration of the battle!!!WTF
     }
 
     @Override
     public void triggerSwiftness() {
-        //TODO Implementation
+        if (this.getHealth() == this.getHealth() * Config.SPECIALS_TRIGGER) {
+            this.setDexterity(this.getIntelligence());
+        }
+        //FIXME This effect is lasts only for the duration of the battle!!!WTF
     }
 
 
     @Override
-    //TODO to check implementation!!!
+    //TODO to check the implementation!!!
     public String toString() {
         StringBuilder sb = new StringBuilder();
 

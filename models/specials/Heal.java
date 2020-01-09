@@ -1,4 +1,7 @@
 package models.specials;
 
-public class Heal {
+public class Heal extends SpecialImpl{
+
+    public Heal() {
+    }
 }

@@ -1,4 +1,7 @@
 package models.specials;
 
-public class Toughness {
+public class Toughness extends SpecialImpl {
+
+    public Toughness() {
+    }
 }

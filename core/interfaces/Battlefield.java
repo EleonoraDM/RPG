@@ -8,7 +8,9 @@ public interface Battlefield {
 
     String createParticipant(String heroName, String heroClassName);
 
-    String createSpecial(String heroName, String specialName);
+    //FIXME changed the return type of the createSpecial method from String to void,
+    // because there is no such an outputmessage in the task!!!
+    void createSpecial(String heroName, String specialName);
 
     String reportParticipants();
 

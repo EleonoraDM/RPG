@@ -1,6 +1,6 @@
 package models.interfaces;
 
-public interface Targetable {
+public interface Targetable extends Specialable {
 
     String attack(Targetable target);
 

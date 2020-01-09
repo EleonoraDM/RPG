@@ -1,11 +1,15 @@
 package models.interfaces;
 
 public interface Specialable {
-    //FIXME to think about the methods here!!!
+
+    void addSpecial(Special special);
+
+    boolean checkForSpecialAbility();
 
     void triggerHeal();
 
     void triggerToughness();
 
     void triggerSwiftness();
+
 }
