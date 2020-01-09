@@ -1,15 +1,16 @@
 package factory.interfaces;
 
-import models.interfaces.Targetable;
+import models.interfaces.Special;
 
 import java.lang.reflect.InvocationTargetException;
 
-public interface TargetableFactory {
+public interface SpecialFactory {
 
-    Targetable create(String name, String className) throws
+    Special create(String className) throws
             ClassNotFoundException,
             IllegalAccessException,
             InstantiationException,
             NoSuchMethodException,
-            InvocationTargetException;
+            InvocationTargetException;;
+
 }

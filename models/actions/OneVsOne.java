@@ -8,6 +8,10 @@ import java.util.List;
 
 public class OneVsOne extends ActionImpl {
 
+    public OneVsOne() {
+    }
+
+    //TODO to resolve some difficulties here!!!
     @Override
     public String executeAction(List<Targetable> participants) {
 

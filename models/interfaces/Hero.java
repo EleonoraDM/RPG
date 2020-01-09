@@ -1,6 +1,6 @@
 package models.interfaces;
 
-public interface Hero extends Targetable, Specials {
+public interface Hero extends Targetable, Specialable {
 
     int getStrength();
 

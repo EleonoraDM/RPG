@@ -1,34 +1,95 @@
 package core;
 
+import common.ExceptionMessages;
+import common.OutputMessages;
 import core.interfaces.Battlefield;
+import factory.ActionFactoryImpl;
+import factory.TargetableFactoryImpl;
+import factory.interfaces.ActionFactory;
+import factory.interfaces.TargetableFactory;
+import models.interfaces.Action;
+import models.interfaces.Targetable;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 public class BattlefieldImplementation implements Battlefield {
+    private TargetableFactory targetableFactory;
+    private ActionFactory actionFactory;
+    private Map<String, Targetable> heroesOnTheBattleField;
+    private List<Targetable> participants;
 
-
-
-    @Override
-    public void createAction(String actionName, String... participantNames) {
-
+    public BattlefieldImplementation() {
+        this.targetableFactory = new TargetableFactoryImpl();
+        this.actionFactory = new ActionFactoryImpl();
+        this.heroesOnTheBattleField = new LinkedHashMap<>();
+        this.participants = new LinkedList<>();
     }
 
     @Override
-    public void createParticipant(String heroName, String heroClassName) {
+    public String createParticipant(String heroName, String heroClassName) {
+        String result = null;
 
+        try {
+            if (this.heroesOnTheBattleField.containsKey(heroName)) {
+                throw new IllegalArgumentException(ExceptionMessages.PARTICIPANT_EXISTS);
+            } else {
+                Targetable hero = this.targetableFactory.create(heroName, heroClassName);
+                this.heroesOnTheBattleField.put(heroName, hero);
+                result = String.format(OutputMessages.PARTICIPANT_CREATED, heroClassName, heroName);
+            }
+
+        } catch (ClassNotFoundException
+                | IllegalAccessException
+                | InstantiationException
+                | NoSuchMethodException
+                | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
-    public void createSpecial(String heroName, String specialName) {
+    public String createAction(String actionName, String... participantNames) {
+        String actionResult = null;
 
+        try {
+            for (String participantName : participantNames) {
+
+                if (!this.heroesOnTheBattleField.containsKey(participantName)) {
+                    throw new IllegalArgumentException
+                            (String.format(ExceptionMessages.NON_EXISTING_PARTICIPANT, participantName, actionName));
+                } else {
+                    Targetable hero = this.heroesOnTheBattleField.get(participantName);
+                    this.participants.add(hero);
+
+                    Action action = this.actionFactory.create(actionName, participantNames);
+                    actionResult = action.executeAction(this.participants);
+                }
+            }
+        } catch (ClassNotFoundException
+                | IllegalAccessException
+                | InstantiationException
+                | NoSuchMethodException
+                | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return actionResult;
     }
 
     @Override
-    public void reportParticipants() {
-
+    public String createSpecial(String heroName, String specialName) {
+        return null;
     }
 
     @Override
-    public void reportActions() {
+    public String reportParticipants() {
+        return null;
+    }
 
+    @Override
+    public String reportActions() {
+        return null;
     }
 
 

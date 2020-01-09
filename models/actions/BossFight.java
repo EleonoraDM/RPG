@@ -10,7 +10,10 @@ import java.util.List;
 
 public class BossFight extends ActionImpl {
 
+    public BossFight() {
+    }
 
+    //TODO to resolve some difficulties here!!!
     @Override
     public String executeAction(List<Targetable> participants) {
         String result = null;
