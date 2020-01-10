@@ -112,11 +112,10 @@ public class HeroImpl implements Hero {
 
     @Override
     public boolean isAlive() {
+        if (this.getHealth()<=0){
+            this.isAlive = false;
+        }
         return this.isAlive;
-    }
-
-    public void setAlive() {
-        this.isAlive = false;
     }
 
     @Override
@@ -170,8 +169,13 @@ public class HeroImpl implements Hero {
     }
 
     @Override
-    public boolean checkForSpecialAbility() {
+    public boolean checkForSpecial() {
         return this.specials.size() > 0;
+    }
+
+    @Override
+    public void removeSpecial(Special special) {
+        this.specials.remove(special);
     }
 
     @Override

@@ -43,7 +43,6 @@ public class BattlefieldImplementation implements Battlefield {
                 this.heroesOnTheBattleField.put(heroName, hero);
                 result = String.format(OutputMessages.PARTICIPANT_CREATED, heroClassName, heroName);
             }
-
         } catch (ClassNotFoundException
                 | IllegalAccessException
                 | InstantiationException
@@ -70,6 +69,7 @@ public class BattlefieldImplementation implements Battlefield {
 
                     Action action = this.actionFactory.create(actionName, participantNames);
                     actionResult = action.executeAction(this.participants);
+
                 }
             }
         } catch (ClassNotFoundException

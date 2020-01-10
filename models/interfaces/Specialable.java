@@ -4,7 +4,9 @@ public interface Specialable {
 
     void addSpecial(Special special);
 
-    boolean checkForSpecialAbility();
+    boolean checkForSpecial();
+
+    void removeSpecial(Special special);
 
     void triggerHeal();
 

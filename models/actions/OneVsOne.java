@@ -14,6 +14,7 @@ public class OneVsOne extends ActionImpl {
     //TODO to resolve some difficulties here!!!
     @Override
     public String executeAction(List<Targetable> participants) {
+        StringBuilder sb = new StringBuilder();
 
         if (participants.size() != 2) {
             throw new IllegalArgumentException(ExceptionMessages.INVALID_PARTICIPANTS);
@@ -28,8 +29,11 @@ public class OneVsOne extends ActionImpl {
                 secondHero.attack(firstHero);
             }
         }
-        String winnerName = firstHero.isAlive() ? firstHero.getName() : secondHero.getName();
+        Targetable winner = firstHero.isAlive() ? firstHero : secondHero;
 
-        return String.format(OutputMessages.FIGHT_END, winnerName);
+        sb.append(String.format(OutputMessages.FIGHT_END, winner.getName()))
+                .append(winner.toString());
+
+        return sb.toString();
     }
 }

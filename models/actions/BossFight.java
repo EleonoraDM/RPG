@@ -25,12 +25,14 @@ public class BossFight extends ActionImpl {
                 filter(p -> p instanceof Boss).
                 findFirst().orElse(null);
 
-        participants.remove(boss);
-
         if (boss != null) {
+
+            participants.remove(boss);
+
             for (Targetable participant : participants) {
 
                 if (participant.isAlive() && boss.isAlive()) {
+
                     participant.attack(boss);
 
                     if (boss.isAlive()) {
@@ -54,7 +56,7 @@ public class BossFight extends ActionImpl {
 
     private String takeBattleResult(Targetable boss, List<Targetable> participants) {
         StringBuilder sb = new StringBuilder();
-        sb.append(OutputMessages.BOSS_SLAIN).append(System.lineSeparator());
+        sb.append(OutputMessages.HERO_SLAIN).append(System.lineSeparator());
         participants.forEach(targetable -> sb.append(targetable.toString()));
         sb.append(String.format(OutputMessages.REMOVE_DEAD_PARTICIPANTS, boss.getName()));
         return sb.toString();

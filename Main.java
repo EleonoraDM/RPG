@@ -1,7 +1,29 @@
+import models.actions.OneVsOne;
+import models.interfaces.Action;
+import models.interfaces.Targetable;
+import models.participants.Warrior;
+import models.participants.Wizard;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        //CreateParticipant Warr Warrior
+        //CreateParticipant Wizz Wizard
+
+        Targetable hero1 = new Warrior("Warr");
+        Targetable hero2 = new Wizard("Wizz");
+
+        List<Targetable> participants = new ArrayList<>();
+        participants.add(hero1);
+        participants.add(hero2);
+
+        Action action = new OneVsOne();
+        String result = action.executeAction(participants);
+
+        System.out.println(result);
 
 
 //FIXME will be subject to refactoring
