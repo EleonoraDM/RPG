@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public interface SpecialFactory {
 
-    Special create(String className) throws
+    Special createSpecial(String className) throws
             ClassNotFoundException,
             IllegalAccessException,
             InstantiationException,

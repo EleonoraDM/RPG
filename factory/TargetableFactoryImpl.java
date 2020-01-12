@@ -9,7 +9,7 @@ import models.participants.Wizard;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class TargetableFactoryImpl implements TargetableFactory {
+public class TargetableFactoryImpl implements TargetableFactory{
 
     @Override
     public Targetable create(String name, String className)

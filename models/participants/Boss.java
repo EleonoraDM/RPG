@@ -3,7 +3,6 @@ package models.participants;
 import models.Config;
 
 public class Boss extends HeroImpl {
-    //public static final double BOSS_INDIVIDUAL_REWARD = 50;
 
     public Boss(String name) {
         super(name);
@@ -21,5 +20,16 @@ public class Boss extends HeroImpl {
     @Override
     public void receiveReward(double reward) {
         super.receiveReward(reward * 0.10);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("  Name: %s | Class: %s", this.getName(), this.getClass().getSimpleName()))
+                .append(System.lineSeparator())
+                .append(String.format("Health: %.2f | Damage: %.2f | %.2f Gold ",
+                        this.getHealth(), this.getDamage(), this.getGold() ));
+
+        return sb.toString();
     }
 }

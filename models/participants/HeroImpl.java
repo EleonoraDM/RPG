@@ -5,11 +5,11 @@ import models.Config;
 import models.interfaces.Hero;
 import models.interfaces.Special;
 import models.interfaces.Targetable;
+import models.specials.Heal;
+import models.specials.Swiftness;
+import models.specials.Toughness;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class HeroImpl implements Hero {
+public abstract class HeroImpl implements Hero {
     private static final int LEVEL_ENTRY_POINT = 1;
 
     private String name;
@@ -21,7 +21,7 @@ public class HeroImpl implements Hero {
     private double damage; //Different for each type of hero!!!
     private double gold; //HERO_START_GOLD = 200.0;
     private boolean isAlive;
-    private List<Special> specials;
+    private Special special;
 
 
     protected HeroImpl
@@ -31,7 +31,7 @@ public class HeroImpl implements Hero {
         this.setHealth(Config.HERO_HEALTH_MULTIPLIER);
         this.setGold(Config.HERO_START_GOLD);
         this.isAlive = true;
-        this.specials = new ArrayList<>();
+        this.special = null;
     }
 
     protected int getLevel() {
@@ -112,7 +112,7 @@ public class HeroImpl implements Hero {
 
     @Override
     public boolean isAlive() {
-        if (this.getHealth()<=0){
+        if (this.getHealth() <= 0) {
             this.isAlive = false;
         }
         return this.isAlive;
@@ -133,7 +133,7 @@ public class HeroImpl implements Hero {
         if (!target.isAlive()) {
             target.giveReward(this);
             this.levelUp();
-            result += String.format(OutputMessages.TARGET_DEFEATED, target.getName(), this.getName());
+            result += String.format(OutputMessages.HERO_SLAIN, target.getName(), this.getName());
         }
         return result;
     }
@@ -164,46 +164,37 @@ public class HeroImpl implements Hero {
     }
 
     @Override
-    public void addSpecial(Special special) {
-        this.specials.add(special);
+    public void setSpecial(Special special) {
+        this.special = special;
     }
 
     @Override
-    public boolean checkForSpecial() {
-        return this.specials.size() > 0;
+    public void deactivateSpecial() {
+        this.setSpecial(null);
     }
 
     @Override
-    public void removeSpecial(Special special) {
-        this.specials.remove(special);
-    }
-
-    @Override
-    public void triggerHeal() {
-        if (this.getHealth() == this.getHealth() * Config.SPECIALS_TRIGGER) {
+    public void triggerSpecial() {
+        if (this.special != null &&
+                this.special instanceof Heal &&
+                this.getHealth() <= this.getHealth() * Config.SPECIALS_TRIGGER) {
             this.setHealth(this.getIntelligence());
         }
-    }
-
-    @Override
-    public void triggerToughness() {
-        if (this.getHealth() == this.getHealth() * Config.SPECIALS_TRIGGER) {
+        if (this.special != null &&
+                this.special instanceof Toughness &&
+                this.getHealth() <= this.getHealth() * Config.SPECIALS_TRIGGER) {
             this.setStrength(this.getIntelligence());
+            //FIXME This effect is lasts only for the duration of the battle!!!WTF
         }
-        //FIXME This effect is lasts only for the duration of the battle!!!WTF
-    }
-
-    @Override
-    public void triggerSwiftness() {
-        if (this.getHealth() == this.getHealth() * Config.SPECIALS_TRIGGER) {
+        if (this.special != null &&
+                this.special instanceof Swiftness &&
+                this.getHealth() >= this.getHealth() * Config.SPECIALS_TRIGGER) {
             this.setDexterity(this.getIntelligence());
+            //FIXME This effect is lasts only for the duration of the battle!!!WTF
         }
-        //FIXME This effect is lasts only for the duration of the battle!!!WTF
     }
 
-
     @Override
-    //TODO to check the implementation!!!
     public String toString() {
         StringBuilder sb = new StringBuilder();
 

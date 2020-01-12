@@ -17,18 +17,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class BattlefieldImplementation implements Battlefield {
+    private static final String STRING_SEPARATOR = "* * * * * * * * * * * * * * * * * * * *";
+
     private TargetableFactory targetableFactory;
     private ActionFactory actionFactory;
     private SpecialFactory specialFactory;
     private Map<String, Targetable> heroesOnTheBattleField;
-    private List<Targetable> participants;
+    private List<String> actionNames;
 
     public BattlefieldImplementation() {
         this.targetableFactory = new TargetableFactoryImpl();
         this.actionFactory = new ActionFactoryImpl();
         this.specialFactory = new SpecialFactoryImpl();
         this.heroesOnTheBattleField = new LinkedHashMap<>();
-        this.participants = new LinkedList<>();
+        this.actionNames = new ArrayList<>();
     }
 
     @Override
@@ -55,21 +57,23 @@ public class BattlefieldImplementation implements Battlefield {
 
     @Override
     public String createAction(String actionName, String... participantNames) {
-        String actionResult = null;
+        StringBuilder sb = new StringBuilder();
 
         try {
             for (String participantName : participantNames) {
-
                 if (!this.heroesOnTheBattleField.containsKey(participantName)) {
                     throw new IllegalArgumentException
                             (String.format(ExceptionMessages.NON_EXISTING_PARTICIPANT, participantName, actionName));
                 } else {
-                    Targetable hero = this.heroesOnTheBattleField.get(participantName);
-                    this.participants.add(hero);
-
                     Action action = this.actionFactory.create(actionName, participantNames);
-                    actionResult = action.executeAction(this.participants);
+                    this.actionNames.add(actionName);
 
+                    List<Targetable> participants = getParticipants(participantNames);
+                    String actionResult = action.executeAction(participants);
+                    sb.append(actionResult);
+
+                    String deadHeroesReport = removeDeadHeroes(this.heroesOnTheBattleField.values());
+                    sb.append(deadHeroesReport);
                 }
             }
         } catch (ClassNotFoundException
@@ -79,15 +83,41 @@ public class BattlefieldImplementation implements Battlefield {
                 | InvocationTargetException e) {
             e.printStackTrace();
         }
-        return actionResult;
+        return sb.toString();
+    }
+
+    private List<Targetable> getParticipants(String[] participantNames) {
+        List<Targetable> participants = new ArrayList<>();
+
+        for (String name : participantNames) {
+            this.heroesOnTheBattleField.values().
+                    stream().
+                    filter(t -> t.getName().equals(name)).
+                    findFirst().ifPresent(participants::add);
+        }
+        return participants;
+    }
+
+    private String removeDeadHeroes(Collection<Targetable> heroes) {
+        StringBuilder sb = new StringBuilder();
+
+        for (Targetable hero : heroes) {
+            if (!hero.isAlive()) {
+                this.heroesOnTheBattleField.remove(hero.getName(), hero);
+                sb.append(String.format(OutputMessages.REMOVE_DEAD_PARTICIPANTS, hero.getName()));
+                sb.append(System.lineSeparator());
+            }
+        }
+        return sb.toString();
     }
 
     @Override
     public void createSpecial(String heroName, String specialName) {
         Targetable hero = this.heroesOnTheBattleField.get(heroName);
+
         try {
-            Special special = this.specialFactory.create(specialName);
-            hero.addSpecial(special);
+            Special special = this.specialFactory.createSpecial(specialName);
+            hero.setSpecial(special);
         } catch (ClassNotFoundException
                 | IllegalAccessException
                 | InstantiationException
@@ -99,12 +129,23 @@ public class BattlefieldImplementation implements Battlefield {
 
     @Override
     public String reportParticipants() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        if (this.heroesOnTheBattleField.isEmpty()) {
+            sb.append(OutputMessages.EMPTY_BATTLEFIELD);
+        } else {
+            this.heroesOnTheBattleField.
+                    values().
+                    forEach(targetable -> sb.
+                            append(targetable.toString()).append(System.lineSeparator()).
+                            append(STRING_SEPARATOR).append(System.lineSeparator()));
+        }
+        return sb.toString();
     }
 
     @Override
     public String reportActions() {
-        return null;
+        return String.join("\n", this.actionNames);
     }
 
 

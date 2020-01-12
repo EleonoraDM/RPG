@@ -10,7 +10,8 @@ import java.util.List;
 
 public class BossFight extends ActionImpl {
 
-    public BossFight() {
+    public BossFight(String... participantNames) {
+        super(participantNames);
     }
 
     //TODO to resolve some difficulties here!!!

@@ -2,16 +2,10 @@ package models.interfaces;
 
 public interface Specialable {
 
-    void addSpecial(Special special);
+    void setSpecial(Special special);
 
-    boolean checkForSpecial();
+    void deactivateSpecial();
 
-    void removeSpecial(Special special);
-
-    void triggerHeal();
-
-    void triggerToughness();
-
-    void triggerSwiftness();
+    void triggerSpecial();
 
 }

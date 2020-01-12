@@ -9,9 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ActionFactoryImpl implements ActionFactory {
 
-    //FIXME to think about the meaning of the var args here (because I do not use it!!!),
-    // considering the fact that we pass a List<Targetable> to the executeAction method in the Action object.
-
     @Override
     public Action create(String actionName, String... participantNames)
             throws ClassNotFoundException,
@@ -24,10 +21,14 @@ public class ActionFactoryImpl implements ActionFactory {
 
         switch (actionName) {
             case "BossFight":
-                action = BossFight.class.getDeclaredConstructor().newInstance();
+                action = BossFight.class.
+                        getDeclaredConstructor(String[].class).
+                        newInstance(new Object[]{participantNames});
                 break;
             case "OneVsOne":
-                action = OneVsOne.class.getDeclaredConstructor().newInstance();
+                action = OneVsOne.class.
+                        getDeclaredConstructor(String[].class).
+                        newInstance(new Object[]{participantNames});
                 break;
             default:
                 throw new ClassNotFoundException();

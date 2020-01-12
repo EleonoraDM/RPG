@@ -1,6 +1,8 @@
 package models.participants;
 
+import common.OutputMessages;
 import models.Config;
+import models.interfaces.Targetable;
 
 public class Warrior extends HeroImpl {
     //DAMAGE = (Strength * 2) + Dexterity
