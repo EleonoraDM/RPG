@@ -16,5 +16,6 @@ public class Necromancer extends HeroImpl {
                 (Config.NECROMANCER_BASE_INTELLIGENCE * NECROMANCER_DAMAGE_MODIFIER)
                         + (Config.NECROMANCER_BASE_DEXTERITY * NECROMANCER_DAMAGE_MODIFIER)
                         + (Config.NECROMANCER_BASE_STRENGTH * NECROMANCER_DAMAGE_MODIFIER));
+        super.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
     }
 }

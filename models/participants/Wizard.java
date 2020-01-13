@@ -12,6 +12,7 @@ public class Wizard extends HeroImpl {
         this.setStrength(Config.WIZARD_BASE_STRENGTH);
         this.setDexterity(Config.WIZARD_BASE_DEXTERITY);
         this.setIntelligence(Config.WIZARD_BASE_INTELLIGENCE);
-        this.setDamage((Config.WARRIOR_BASE_INTELLIGENCE * WIZARD_DAMAGE_MODIFIER) + Config.WIZARD_BASE_DEXTERITY);
+        this.setDamage((Config.WIZARD_BASE_INTELLIGENCE * WIZARD_DAMAGE_MODIFIER) + Config.WIZARD_BASE_DEXTERITY);
+        super.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
     }
 }

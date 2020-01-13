@@ -30,7 +30,7 @@ public class CommandsProcessor {
         } else if (command.toUpperCase().equals(Commands.CREATESPECIAL.name())) {
             String heroName = data[0];
             String specialClassName = data[1];
-            //TODO here to submit proper return message, there is no such in the preliminary structure!
+            //TODO to submit proper return message here, there is no such in the preliminary structure!
             this.battlefield.createSpecial(heroName, specialClassName);
 
         } else if (command.toUpperCase().equals(Commands.STATPARTICIPANTS.name())) {
@@ -39,6 +39,8 @@ public class CommandsProcessor {
         } else if (command.toUpperCase().equals(Commands.STATACTIONS.name())) {
             result = this.battlefield.reportActions();
 
+        } else if (command.toUpperCase().equals(Commands.PEACE.name())) {
+            result = Commands.PEACE.name();
         } else {
             throw new IllegalArgumentException(ExceptionMessages.INVALID_COMMAND);
         }

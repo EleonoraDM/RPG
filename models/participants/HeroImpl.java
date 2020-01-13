@@ -28,7 +28,6 @@ public abstract class HeroImpl implements Hero {
             (String name) {
         this.name = name;//FIXME Should I use the setter here for verification???
         this.level = LEVEL_ENTRY_POINT;
-        this.setHealth(Config.HERO_HEALTH_MULTIPLIER);
         this.setGold(Config.HERO_START_GOLD);
         this.isAlive = true;
         this.special = null;
@@ -52,7 +51,7 @@ public abstract class HeroImpl implements Hero {
 
     @Override
     public void setHealth(double health) {
-        this.health = this.getStrength() * health;
+        this.health = health;
     }
 
     @Override
@@ -148,7 +147,8 @@ public abstract class HeroImpl implements Hero {
         this.setStrength(this.getStrength() * Config.LEVEL_UP_MULTIPLIER);
         this.setDexterity(this.getDexterity() * Config.LEVEL_UP_MULTIPLIER);
         this.setIntelligence(this.getIntelligence() * Config.LEVEL_UP_MULTIPLIER);
-        this.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);//FIXME not sure about this!
+        this.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
+        this.setDamage(this.getDamage() * Config.LEVEL_UP_MULTIPLIER);
         this.level++;
     }
 

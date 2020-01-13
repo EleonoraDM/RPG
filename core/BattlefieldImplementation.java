@@ -64,23 +64,24 @@ public class BattlefieldImplementation implements Battlefield {
                 if (!this.heroesOnTheBattleField.containsKey(participantName)) {
                     throw new IllegalArgumentException
                             (String.format(ExceptionMessages.NON_EXISTING_PARTICIPANT, participantName, actionName));
-                } else {
-                    Action action = this.actionFactory.create(actionName, participantNames);
-                    this.actionNames.add(actionName);
-
-                    List<Targetable> participants = getParticipants(participantNames);
-                    String actionResult = action.executeAction(participants);
-                    sb.append(actionResult);
-
-                    String deadHeroesReport = removeDeadHeroes(this.heroesOnTheBattleField.values());
-                    sb.append(deadHeroesReport);
                 }
             }
+            Action action = this.actionFactory.create(actionName, participantNames);
+            this.actionNames.add(actionName);
+
+            List<Targetable> participants = getParticipants(participantNames);
+            String actionResult = action.executeAction(participants);
+            sb.append(actionResult);
+
+            String deadHeroesReport = removeDeadHeroes(this.heroesOnTheBattleField.values());
+            sb.append(deadHeroesReport);
+
         } catch (ClassNotFoundException
                 | IllegalAccessException
                 | InstantiationException
                 | NoSuchMethodException
-                | InvocationTargetException e) {
+                |
+                InvocationTargetException e) {
             e.printStackTrace();
         }
         return sb.toString();
@@ -100,12 +101,15 @@ public class BattlefieldImplementation implements Battlefield {
 
     private String removeDeadHeroes(Collection<Targetable> heroes) {
         StringBuilder sb = new StringBuilder();
+        Iterator<Targetable> iterator = heroes.iterator();
 
-        for (Targetable hero : heroes) {
+        while (iterator.hasNext()) {
+            Targetable hero = iterator.next();
+
             if (!hero.isAlive()) {
-                this.heroesOnTheBattleField.remove(hero.getName(), hero);
                 sb.append(String.format(OutputMessages.REMOVE_DEAD_PARTICIPANTS, hero.getName()));
                 sb.append(System.lineSeparator());
+                heroes.remove(hero);
             }
         }
         return sb.toString();
