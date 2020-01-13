@@ -5,6 +5,9 @@ import common.OutputMessages;
 import models.Config;
 import models.interfaces.Targetable;
 import models.participants.Boss;
+import models.participants.Necromancer;
+import models.participants.Warrior;
+import models.participants.Wizard;
 
 import java.util.List;
 
@@ -14,7 +17,6 @@ public class BossFight extends ActionImpl {
         super(participantNames);
     }
 
-    //TODO to resolve some difficulties here!!!
     @Override
     public String executeAction(List<Targetable> participants) {
         String result = null;
@@ -27,39 +29,51 @@ public class BossFight extends ActionImpl {
                 findFirst().orElse(null);
 
         if (boss != null) {
-
             participants.remove(boss);
 
             for (Targetable participant : participants) {
 
                 if (participant.isAlive() && boss.isAlive()) {
-
+                    if (participant instanceof Wizard){
+                        participant.triggerSpecial();
+                    }
                     participant.attack(boss);
 
+                    if (participant instanceof Necromancer){
+                        participant.triggerSpecial();
+                    }
                     if (boss.isAlive()) {
                         boss.attack(participant);
+                        if (participant instanceof Warrior){
+                            participant.triggerSpecial();
+                        }
                     } else {
                         participants.forEach(Targetable::levelUp);
                         participants.forEach(targetable -> targetable.receiveReward(Config.BOSS_INDIVIDUAL_REWARD));
                         boss.giveReward(participant);
-                        result = takeBattleResult(boss, participants);
+                        result = takeBattleReport(boss, participants);
                         break;
                     }
-
-                    if (!participant.isAlive()){
-
-                    }
                 }
+                if (!boss.isAlive()){
+                    break;
+                }
+            }
+            if (participants.stream().noneMatch(Targetable::isAlive)){
+                result = OutputMessages.BOSS_WON;
             }
         }
         return result;
     }
 
-    private String takeBattleResult(Targetable boss, List<Targetable> participants) {
+    private String takeBattleReport(Targetable boss, List<Targetable> participants) {
         StringBuilder sb = new StringBuilder();
-        sb.append(OutputMessages.HERO_SLAIN).append(System.lineSeparator());
-        participants.forEach(targetable -> sb.append(targetable.toString()));
-        sb.append(String.format(OutputMessages.REMOVE_DEAD_PARTICIPANTS, boss.getName()));
+
+        sb.append(String.format(OutputMessages.BOSS_LOST, boss.getName())).
+                append(System.lineSeparator());
+
+        participants.stream().filter(Targetable::isAlive).forEach(t -> sb.append(t.toString()));
+
         return sb.toString();
     }
 }

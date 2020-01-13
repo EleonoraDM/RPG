@@ -15,7 +15,6 @@ public class OneVsOne extends ActionImpl {
         super(participantNames);
     }
 
-    //TODO to resolve some difficulties here!!!
     @Override
     public String executeAction(List<Targetable> participants) {
         StringBuilder sb = new StringBuilder();
@@ -26,7 +25,7 @@ public class OneVsOne extends ActionImpl {
         Targetable firstHero = participants.get(0);
         Targetable secondHero = participants.get(1);
 
-        while (!firstHero.isAlive() || !secondHero.isAlive()) {
+        while (firstHero.isAlive() && secondHero.isAlive()) {
             if (firstHero instanceof Wizard){
                 firstHero.triggerSpecial();
             }

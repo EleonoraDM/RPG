@@ -1,5 +1,7 @@
 package factory;
 
+import common.ExceptionMessages;
+import common.OutputMessages;
 import factory.interfaces.ActionFactory;
 import models.actions.BossFight;
 import models.actions.OneVsOne;
@@ -31,7 +33,7 @@ public class ActionFactoryImpl implements ActionFactory {
                         newInstance(new Object[]{participantNames});
                 break;
             default:
-                throw new ClassNotFoundException();
+                throw new ClassNotFoundException(ExceptionMessages.FIGHT_FAILED);
         }
         return action;
     }

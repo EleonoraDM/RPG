@@ -145,7 +145,8 @@ public class BattlefieldImplementation implements Battlefield {
 
     @Override
     public String reportActions() {
-        return String.join("\n", this.actionNames);
+        return this.actionNames.isEmpty()
+                ? OutputMessages.NO_ACTIONS : String.join("\n", this.actionNames);
     }
 
 
