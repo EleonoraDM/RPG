@@ -10,7 +10,7 @@ public class OutputMessages {
     public static final String FIGHT_END = "%s is victorious!";
 
     public static final String BOSS_WON = "Boss has slain them all!";
-    public static final String BOSS_LOST = "%s has been slain by:";
+    public static final String BOSS_LOST = "Boss has been slain by: ";
 
 
     public static final String PARTICIPANT_CREATED = "%s %s entered the battlefield.";

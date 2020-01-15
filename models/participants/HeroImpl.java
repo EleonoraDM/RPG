@@ -119,6 +119,7 @@ public abstract class HeroImpl implements Hero {
 
     @Override
     public String attack(Targetable target) {
+        String result = "";
 
         if (!this.isAlive()) {
             return String.format(OutputMessages.DEAD_ATTACKER, this.getName());
@@ -127,12 +128,13 @@ public abstract class HeroImpl implements Hero {
             return String.format(OutputMessages.DEAD_TARGET, target.getName());
         }
         target.takeDamage(this.getDamage());
-        String result = String.format(OutputMessages.ATTACK_SUCCESSFUL, this.getName());
 
         if (!target.isAlive()) {
-            target.giveReward(this);
-            this.levelUp();
-            result += String.format(OutputMessages.HERO_SLAIN, target.getName(), this.getName());
+            if (target instanceof Boss){
+                result = OutputMessages.BOSS_LOST + System.lineSeparator();
+            }else {
+                result = String.format(OutputMessages.HERO_SLAIN, target.getName(), this.getName());
+            }
         }
         return result;
     }

@@ -113,7 +113,7 @@ public class BattlefieldImplementation implements Battlefield {
             if (!hero.isAlive()) {
                 sb.append(String.format(OutputMessages.REMOVE_DEAD_PARTICIPANTS, hero.getName()));
                 sb.append(System.lineSeparator());
-                heroes.remove(hero);
+                iterator.remove();
             }
         }
         return sb.toString();
@@ -142,8 +142,9 @@ public class BattlefieldImplementation implements Battlefield {
         if (this.heroesOnTheBattleField.isEmpty()) {
             sb.append(OutputMessages.EMPTY_BATTLEFIELD);
         } else {
-            this.heroesOnTheBattleField.
-                    values().
+            this.heroesOnTheBattleField.values().
+                    stream().
+                    sorted(Comparator.comparing(Targetable::getName)).
                     forEach(targetable -> sb.
                             append(targetable.toString()).append(System.lineSeparator()).
                             append(STRING_SEPARATOR).append(System.lineSeparator()));

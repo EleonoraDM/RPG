@@ -29,8 +29,8 @@ public class OneVsOne extends ActionImpl {
             if (firstHero instanceof Wizard) {
                 firstHero.triggerSpecial();
             }
-            String attackResult = firstHero.attack(secondHero);
-            sb.append(attackResult).append(System.lineSeparator());
+            String firstVsSecond = performAttack(firstHero, secondHero);
+            sb.append(firstVsSecond);
 
             if (firstHero instanceof Necromancer) {
                 firstHero.triggerSpecial();
@@ -39,17 +39,34 @@ public class OneVsOne extends ActionImpl {
                 secondHero.triggerSpecial();
             }
             if (secondHero.isAlive()) {
-                String contraAttackResult = secondHero.attack(firstHero);
-                sb.append(contraAttackResult).append(System.lineSeparator());
+                String secondVsFirst = performAttack(secondHero, firstHero);
+                sb.append(secondVsFirst);
             }
         }
         Targetable winner = firstHero.isAlive() ? firstHero : secondHero;
 
+        if (winner.getName().equals(firstHero.getName())) {
+            secondHero.giveReward(firstHero);
+            firstHero.levelUp();
+        } else {
+            firstHero.giveReward(secondHero);
+            secondHero.levelUp();
+        }
         sb.append(String.format(OutputMessages.FIGHT_END, winner.getName()))
                 .append(System.lineSeparator())
                 .append(winner.toString())
                 .append(System.lineSeparator());
 
+        return sb.toString();
+    }
+
+    private String performAttack(Targetable attacker, Targetable defender) {
+        StringBuilder sb = new StringBuilder();
+        String attackResult = attacker.attack(defender);
+        sb.
+                append(String.format(OutputMessages.ATTACK_SUCCESSFUL, attacker.getName())).
+                append(attackResult).
+                append(System.lineSeparator());
         return sb.toString();
     }
 }
