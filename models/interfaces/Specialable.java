@@ -8,4 +8,6 @@ public interface Specialable {
 
     void triggerSpecial();
 
+    double getDefaultHealth();
+
 }

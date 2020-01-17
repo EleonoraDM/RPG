@@ -9,7 +9,7 @@ public class Necromancer extends HeroImpl {
 
     public Necromancer(String name) {
         super(name);
-        this.setStrength(Config.WARRIOR_BASE_STRENGTH);
+        this.setStrength(Config.NECROMANCER_BASE_STRENGTH);
         this.setDexterity(Config.NECROMANCER_BASE_DEXTERITY);
         this.setIntelligence(Config.NECROMANCER_BASE_INTELLIGENCE);
         this.setDamage(
@@ -17,5 +17,10 @@ public class Necromancer extends HeroImpl {
                         + (Config.NECROMANCER_BASE_DEXTERITY * NECROMANCER_DAMAGE_MODIFIER)
                         + (Config.NECROMANCER_BASE_STRENGTH * NECROMANCER_DAMAGE_MODIFIER));
         super.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
+    }
+
+    @Override
+    public double getDefaultHealth() {
+        return Config.NECROMANCER_BASE_STRENGTH * Config.HERO_HEALTH_MULTIPLIER;
     }
 }

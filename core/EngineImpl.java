@@ -28,7 +28,7 @@ public class EngineImpl implements Engine {
                 if (result.equals(Commands.PEACE.name())){
                     break;
                 }
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException | NullPointerException ex) {
                 result = ex.getMessage();
             }
             this.writer.writeLine(result);

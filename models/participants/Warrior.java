@@ -14,4 +14,9 @@ public class Warrior extends HeroImpl {
         this.setDamage((Config.WARRIOR_BASE_STRENGTH * WARRIOR_DAMAGE_MODIFIER) + Config.WARRIOR_BASE_DEXTERITY);
         super.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
     }
+
+    @Override
+    public double getDefaultHealth() {
+        return Config.WARRIOR_BASE_STRENGTH * Config.HERO_HEALTH_MULTIPLIER;
+    }
 }

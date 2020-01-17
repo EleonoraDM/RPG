@@ -130,10 +130,11 @@ public abstract class HeroImpl implements Hero {
         target.takeDamage(this.getDamage());
 
         if (!target.isAlive()) {
-            if (target instanceof Boss){
+            if (target instanceof Boss) {
                 result = OutputMessages.BOSS_LOST + System.lineSeparator();
-            }else {
-                result = String.format(OutputMessages.HERO_SLAIN, target.getName(), this.getName());
+            } else {
+                result = String.format(OutputMessages.HERO_SLAIN, target.getName(), this.getName())
+                        + System.lineSeparator();
             }
         }
         return result;
@@ -179,19 +180,19 @@ public abstract class HeroImpl implements Hero {
     public void triggerSpecial() {
         if (this.special != null &&
                 this.special instanceof Heal &&
-                this.getHealth() <= this.getHealth() * Config.SPECIALS_TRIGGER) {
-            this.setHealth(this.getIntelligence());
+                this.getHealth() <= this.getDefaultHealth() * Config.SPECIALS_TRIGGER) {
+            this.setHealth(this.getHealth() + this.getIntelligence());
         }
         if (this.special != null &&
                 this.special instanceof Toughness &&
-                this.getHealth() <= this.getHealth() * Config.SPECIALS_TRIGGER) {
-            this.setStrength(this.getIntelligence());
+                this.getHealth() <= this.getDefaultHealth() * Config.SPECIALS_TRIGGER) {
+            this.setStrength(this.getStrength() + this.getIntelligence());
             //FIXME This effect is lasts only for the duration of the battle!!!WTF
         }
         if (this.special != null &&
                 this.special instanceof Swiftness &&
-                this.getHealth() >= this.getHealth() * Config.SPECIALS_TRIGGER) {
-            this.setDexterity(this.getIntelligence());
+                this.getHealth() >= this.getDefaultHealth() * Config.SPECIALS_TRIGGER) {
+            this.setDexterity(this.getDexterity() + this.getIntelligence());
             //FIXME This effect is lasts only for the duration of the battle!!!WTF
         }
     }

@@ -15,6 +15,7 @@ import models.interfaces.Targetable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BattlefieldImplementation implements Battlefield {
     private static final String STRING_SEPARATOR = "* * * * * * * * * * * * * * * * * * * *";
@@ -75,9 +76,8 @@ public class BattlefieldImplementation implements Battlefield {
                 | IllegalAccessException
                 | InstantiationException
                 | NoSuchMethodException
-                |
-                InvocationTargetException e) {
-            e.printStackTrace();
+                | InvocationTargetException e) {
+            return e.getMessage();
         }
         return sb.toString();
     }
@@ -105,17 +105,17 @@ public class BattlefieldImplementation implements Battlefield {
 
     private String removeDeadHeroes(Collection<Targetable> heroes) {
         StringBuilder sb = new StringBuilder();
-        Iterator<Targetable> iterator = heroes.iterator();
 
-        while (iterator.hasNext()) {
-            Targetable hero = iterator.next();
+        heroes.
+                stream().
+                filter(targetable -> !targetable.isAlive()).
+                sorted(Comparator.comparing(Targetable::getName)).
+                forEach(targetable ->
+                        sb.append(String.format(OutputMessages.REMOVE_DEAD_PARTICIPANTS, targetable.getName())).
+                                append(System.lineSeparator()));
 
-            if (!hero.isAlive()) {
-                sb.append(String.format(OutputMessages.REMOVE_DEAD_PARTICIPANTS, hero.getName()));
-                sb.append(System.lineSeparator());
-                iterator.remove();
-            }
-        }
+        heroes.removeIf(targetable -> !targetable.isAlive());
+
         return sb.toString();
     }
 

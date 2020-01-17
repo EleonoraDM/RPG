@@ -1,6 +1,8 @@
 package models.participants;
 
+import common.OutputMessages;
 import models.Config;
+import models.interfaces.Targetable;
 
 public class Boss extends HeroImpl {
 
@@ -9,6 +11,21 @@ public class Boss extends HeroImpl {
         this.setHealth(Config.BOSS_HEALTH);
         this.setDamage((int) Config.BOSS_DAMAGE);
         this.setGold(Config.BOSS_GOLD);
+    }
+
+    @Override
+    public String attack(Targetable target) {
+        String result = "";
+
+        if (!this.isAlive()) {
+            result = String.format(OutputMessages.DEAD_ATTACKER, this.getName());
+        }
+        if (!target.isAlive()) {
+            result = String.format(OutputMessages.DEAD_TARGET, target.getName());
+        }
+        target.takeDamage(this.getDamage());
+
+        return result;
     }
 
     @Override
@@ -31,5 +48,10 @@ public class Boss extends HeroImpl {
                         this.getHealth(), this.getDamage(), this.getGold() ));
 
         return sb.toString();
+    }
+
+    @Override
+    public double getDefaultHealth() {
+        return Config.BOSS_HEALTH;
     }
 }

@@ -15,4 +15,9 @@ public class Wizard extends HeroImpl {
         this.setDamage((Config.WIZARD_BASE_INTELLIGENCE * WIZARD_DAMAGE_MODIFIER) + Config.WIZARD_BASE_DEXTERITY);
         super.setHealth(this.getStrength() * Config.HERO_HEALTH_MULTIPLIER);
     }
+
+    @Override
+    public double getDefaultHealth() {
+        return Config.WARRIOR_BASE_STRENGTH * Config.HERO_HEALTH_MULTIPLIER;
+    }
 }
