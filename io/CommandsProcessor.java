@@ -15,7 +15,7 @@ public class CommandsProcessor {
     }
 
     public String commandExecution(String command, String[] data) {
-        String result = null;
+        String result = "";
 
         if (command.toUpperCase().equals(Commands.CREATEPARTICIPANT.name())) {
             String heroName = data[0];
@@ -31,7 +31,6 @@ public class CommandsProcessor {
             String heroName = data[0];
             String specialClassName = data[1];
             //TODO to submit proper return message here, there is no such in the preliminary structure!
-            // - unhandled NullPointerExc!!!
             this.battlefield.createSpecial(heroName, specialClassName);
 
         } else if (command.toUpperCase().equals(Commands.STATPARTICIPANTS.name())) {

@@ -69,6 +69,8 @@ public class BossFight extends ActionImpl {
                 }
             }
         }
+        participants.forEach(p -> p.deactivateSpecial(p.getSpecial()));
+
         if (areAllDead(participants)) {
             sb.append(OutputMessages.BOSS_WON);
         }

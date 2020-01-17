@@ -167,13 +167,20 @@ public abstract class HeroImpl implements Hero {
     }
 
     @Override
+    public Special getSpecial() {
+        return this.special;
+    }
+
+    @Override
     public void setSpecial(Special special) {
         this.special = special;
     }
 
     @Override
-    public void deactivateSpecial() {
-        this.setSpecial(null);
+    public void deactivateSpecial(Special special) {
+        if (special instanceof Toughness || special instanceof Swiftness){
+            this.setSpecial(null);
+        }
     }
 
     @Override
@@ -187,13 +194,13 @@ public abstract class HeroImpl implements Hero {
                 this.special instanceof Toughness &&
                 this.getHealth() <= this.getDefaultHealth() * Config.SPECIALS_TRIGGER) {
             this.setStrength(this.getStrength() + this.getIntelligence());
-            //FIXME This effect is lasts only for the duration of the battle!!!WTF
+            //TODO This effect is lasts only for the duration of the battle!!!
         }
         if (this.special != null &&
                 this.special instanceof Swiftness &&
                 this.getHealth() >= this.getDefaultHealth() * Config.SPECIALS_TRIGGER) {
             this.setDexterity(this.getDexterity() + this.getIntelligence());
-            //FIXME This effect is lasts only for the duration of the battle!!!WTF
+            //TODO This effect is lasts only for the duration of the battle!!!
         }
     }
 

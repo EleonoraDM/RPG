@@ -43,6 +43,9 @@ public class OneVsOne extends ActionImpl {
                 sb.append(secondVsFirst);
             }
         }
+        firstHero.deactivateSpecial(firstHero.getSpecial());
+        secondHero.deactivateSpecial(secondHero.getSpecial());
+
         Targetable winner = firstHero.isAlive() ? firstHero : secondHero;
 
         if (winner.getName().equals(firstHero.getName())) {
