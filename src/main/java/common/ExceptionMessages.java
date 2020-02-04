@@ -9,5 +9,6 @@ public class ExceptionMessages {
     public static final String FIGHT_FAILED = "Action does not exist.";
     public static final String INVALID_COMMAND = "Invalid command!";
     public static final String INVALID_BOSS = "Invalid boss.";
+    public static final String INVALID_NAME = "Heroes name can not be null or empty!";
 
 }

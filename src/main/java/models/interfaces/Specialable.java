@@ -6,7 +6,7 @@ public interface Specialable {
 
     void setSpecial(Special special);
 
-    void deactivateSpecial(Special special);
+    void deactivateSpecial();
 
     void triggerSpecial();
 

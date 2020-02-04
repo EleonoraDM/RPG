@@ -3,6 +3,7 @@ package models.actions;
 import common.ExceptionMessages;
 import common.OutputMessages;
 import models.Config;
+import models.interfaces.Specialable;
 import models.interfaces.Targetable;
 import models.participants.Boss;
 import models.participants.Necromancer;
@@ -69,7 +70,7 @@ public class BossFight extends ActionImpl {
                 }
             }
         }
-        participants.forEach(p -> p.deactivateSpecial(p.getSpecial()));
+        participants.forEach(Specialable::deactivateSpecial);
 
         if (areAllDead(participants)) {
             sb.append(OutputMessages.BOSS_WON);

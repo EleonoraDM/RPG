@@ -1,5 +1,6 @@
 package models.participants;
 
+import common.ExceptionMessages;
 import common.OutputMessages;
 import models.Config;
 import models.interfaces.Hero;
@@ -26,14 +27,14 @@ public abstract class HeroImpl implements Hero {
 
     protected HeroImpl
             (String name) {
-        this.name = name;//FIXME Should I use the setter here for verification???
+        this.setName(name);
         this.level = LEVEL_ENTRY_POINT;
         this.setGold(Config.HERO_START_GOLD);
         this.isAlive = true;
         this.special = null;
     }
 
-    protected int getLevel() {
+    public int getLevel() {
         return this.level;
     }
 
@@ -91,6 +92,9 @@ public abstract class HeroImpl implements Hero {
 
     @Override
     public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new NullPointerException(ExceptionMessages.INVALID_NAME);
+        }
         this.name = name;
     }
 
@@ -177,8 +181,9 @@ public abstract class HeroImpl implements Hero {
     }
 
     @Override
-    public void deactivateSpecial(Special special) {
-        if (special instanceof Toughness || special instanceof Swiftness){
+    public void deactivateSpecial() {
+        if (this.special != null &&
+                (this.special instanceof Toughness || this.special instanceof Swiftness)) {
             this.setSpecial(null);
         }
     }
