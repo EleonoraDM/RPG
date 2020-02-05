@@ -14,7 +14,7 @@ public class CommandsProcessor {
         this.battlefield = new BattlefieldImplementation();
     }
 
-    public String commandExecution(String command, String[] data) {
+    public String executeCommand(String command, String[] data) {
         String result = "";
 
         if (command.toUpperCase().equals(Commands.CREATEPARTICIPANT.name())) {

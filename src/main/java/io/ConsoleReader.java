@@ -23,6 +23,6 @@ public class ConsoleReader implements Reader {
         String command = tokens[0];
         String[] data = Arrays.copyOfRange(tokens, 1, tokens.length);
 
-        return this.processor.commandExecution(command, data);
+        return this.processor.executeCommand(command, data);
     }
 }
