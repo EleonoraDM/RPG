@@ -18,6 +18,6 @@ public class Wizard extends HeroImpl {
 
     @Override
     public double getDefaultHealth() {
-        return Config.WARRIOR_BASE_STRENGTH * Config.HERO_HEALTH_MULTIPLIER;
+        return Config.WIZARD_BASE_STRENGTH * Config.HERO_HEALTH_MULTIPLIER;
     }
 }
