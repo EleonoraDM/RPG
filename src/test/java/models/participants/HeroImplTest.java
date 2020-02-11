@@ -98,7 +98,8 @@ public class HeroImplTest {
         double damage = this.hero.getDamage();
         double health = this.target.getHealth();
 
-        this.target.takeDamage(damage);
+        this.hero.attack(target);
+
         assertEquals((health - damage), this.target.getHealth(), 0.001);
     }
 
@@ -121,7 +122,7 @@ public class HeroImplTest {
     }
 
     @Test
-    public void giveReward_ShouldIncreaseTheVictorsGold() {
+    public void giveReward_ShouldIncreaseTheWinnersGold() {
         double reward = this.hero.getGold();
         double currGold = this.target.getGold();
         double expectedGold = currGold + reward;
