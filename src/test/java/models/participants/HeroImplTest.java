@@ -1,8 +1,10 @@
 package models.participants;
 
+import models.Config;
 import models.interfaces.Hero;
 import models.interfaces.Special;
 import models.specials.Heal;
+import models.specials.Swiftness;
 import models.specials.Toughness;
 import org.junit.Assert;
 import org.junit.Before;
@@ -131,6 +133,151 @@ public class HeroImplTest {
     }
 
     /**
+     * Exact trigger times:
+     * •	Warrior triggers his special RIGHT AFTER HE RECEIVES DAMAGE and his special's requirements are met
+     * •	Wizzard triggers his special RIGHT BEFORE DEALING DAMAGE and his special's requirements are met
+     * •	Necromancer triggers his special RIGHT AFTER DEALING DAMAGE and his special's requirements are met.
+     * <p>
+     * •	Heal - the hero gains health equal to his points of intelligence EVERY TIME the ability is triggered.
+     * Trigger happens if the hero's health is BELOW or equal to 50%.
+     * <p>
+     * •	Toughness - the hero gains strength equal to his points of intelligence
+     * as long as his health is BELOW or equal to 50%.
+     * This effect is lasts ONLY FOR THE DURATION OF THE BATTLE.
+     * <p>
+     * •	Swiftness - the hero gains dexterity equal to his intelligence points
+     * as long as his health is ABOVE or equal to 50%.
+     * This effect is lasts ONLY FOR THE DURATION OF THE BATTLE.
+     */
+
+    @Test
+    public void triggerSpecial_Heal_ShouldSetTheCorrectHealthIfCurrentHealthIsEqualToTheComparativeOne() {
+        Special special = new Heal();
+        this.hero.setSpecial(special);
+
+        double comparativeHealth = this.hero.getDefaultHealth() * Config.SPECIALS_TRIGGER;
+        this.hero.takeDamage(comparativeHealth);
+
+        double expectedHealth = this.hero.getHealth() + this.hero.getIntelligence();
+        this.hero.triggerSpecial();
+
+        assertEquals("Special condition is met - health value is 50% of the default level!",
+                expectedHealth, this.hero.getHealth(), 0.001);
+    }
+
+    @Test
+    public void triggerSpecial_Heal_ShouldSetTheCorrectHealthIfCurrentHealthIsBelowTheComparativeOne() {
+        Special special = new Heal();
+        this.hero.setSpecial(special);
+        this.hero.takeDamage(31.00);
+
+        double expectedHealth = this.hero.getHealth() + this.hero.getIntelligence();
+        this.hero.triggerSpecial();
+
+        assertEquals("Special condition is met - health value is BELOW 50% of the default level!",
+                expectedHealth, this.hero.getHealth(), 0.001);
+    }
+
+    @Test
+    public void triggerSpecial_Heal_ShouldNotChangeHealthIfCurrentHealthIsAboveTheComparativeOne() {
+        Special special = new Heal();
+        this.hero.setSpecial(special);
+        this.hero.takeDamage(0.00);
+
+        this.hero.triggerSpecial();
+
+        assertEquals("Special condition is NOT met!",
+                this.hero.getDefaultHealth(), this.hero.getHealth(), 0.001);
+    }
+
+    @Test
+    public void triggerSpecial_Toughness_ShouldSetTheCorrectStrengthIfCurrentHealthIsEqualToTheComparativeOne() {
+        Special special = new Toughness();
+        this.target.setSpecial(special);
+
+        double comparativeHealth = this.target.getDefaultHealth() * Config.SPECIALS_TRIGGER;
+        double expectedStrength = this.target.getStrength() + this.target.getIntelligence();
+
+        this.target.setHealth(comparativeHealth);
+
+        this.target.triggerSpecial();
+
+        assertEquals("Special condition is met - health value is 50% of the default level!",
+                expectedStrength, this.target.getStrength(), 0.001);
+    }
+
+    @Test
+    public void triggerSpecial_Toughness_ShouldSetTheCorrectStrengthIfCurrentHealthIsBelowToTheComparativeOne() {
+        Special special = new Toughness();
+        this.target.setSpecial(special);
+
+        double expectedStrength = this.target.getStrength() + this.target.getIntelligence();
+        this.target.setHealth(10.00);
+
+        this.target.triggerSpecial();
+
+        assertEquals("Special condition is met - health value is BELOW 50% of the default level!",
+                expectedStrength, this.target.getStrength(), 0.001);
+    }
+
+    @Test
+    public void triggerSpecial_Toughness_ShouldNotChangeStrengthIfHeathIsAboveTheComparativeOne() {
+        Special special = new Toughness();
+        this.target.setSpecial(special);
+        int currentStrength = this.target.getStrength();
+
+        this.target.triggerSpecial();
+
+        assertEquals("Special condition is NOT met!",
+                currentStrength, this.target.getStrength(), 0.001);
+    }
+
+    @Test
+    public void triggerSpecial_Swiftness_ShouldSetTheCorrectDexterityValueIfHealthIsEqualToTheComparativeOne() {
+        Special special = new Swiftness();
+        HeroImpl hero1 = new Necromancer("Necro");
+        hero1.setSpecial(special);
+
+        hero1.setHealth(hero1.getHealth() * 0.50);
+        int expectedDexterity = hero1.getDexterity() + hero1.getIntelligence();
+
+        hero1.triggerSpecial();
+
+        assertEquals("Special condition is met - health value is 50% of the default level!",
+                expectedDexterity, hero1.getDexterity());
+    }
+
+    @Test
+    public void triggerSpecial_Swiftness_ShouldSetTheCorrectDexterityValueIfHealthIsAboveToTheComparativeOne() {
+        Special special = new Swiftness();
+        HeroImpl hero1 = new Necromancer("Necro");
+        hero1.setSpecial(special);
+
+        hero1.setHealth(35.00);
+        int expectedDexterity = hero1.getDexterity() + hero1.getIntelligence();
+
+        hero1.triggerSpecial();
+
+        assertEquals("Special condition is met - health value is ABOVE 50% of the default level!",
+                expectedDexterity, hero1.getDexterity());
+    }
+
+    @Test
+    public void triggerSpecial_Swiftness_ShouldNotChangeDexterityIfHealthIsBelowTheComparativeOne() {
+        Special special = new Swiftness();
+        HeroImpl hero1 = new Necromancer("Necro");
+        hero1.setSpecial(special);
+
+        hero1.setHealth(10.00);
+        int expectedDexterity = hero1.getDexterity();
+
+        hero1.triggerSpecial();
+
+        assertEquals("Special condition is met - health value is BELOW 50% of the default level!",
+                expectedDexterity, hero1.getDexterity());
+    }
+
+    /**
      * ONLY Toughness and Swiftness should be deactivated after battle completion!
      */
     @Test
@@ -151,5 +298,16 @@ public class HeroImplTest {
         assertNotNull(this.hero.getSpecial());
     }
 
-
+    @Test
+    public void toString_ReturnsTheExpectedMessage() {
+        String expected = String.format(
+                "  Name: %s | Class: %s%n" +
+                        "  Health: %.2f | Damage: %.2f%n" +
+                        "  %d STR | %d DEX | %d INT | %.2f Gold",
+                this.hero.getName(), this.hero.getClass().getSimpleName(),
+                this.hero.getHealth(), this.hero.getDamage(),
+                this.hero.getStrength(), this.hero.getDexterity(), this.hero.getIntelligence(), this.hero.getGold()
+        );
+        assertEquals(expected, this.hero.toString());
+    }
 }
